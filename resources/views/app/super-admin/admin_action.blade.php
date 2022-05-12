@@ -50,6 +50,10 @@
             <div class="form-group">
                 <label for="password" class="col-form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <small>
+                <p>* Untuk keamanan password harus setidaknya terdiri dari 8 karakter, huruf besar dan kecil, angka, serta simbol</p>
+            </small>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Save</button>

@@ -63,9 +63,9 @@ class User extends Authenticatable
         parent::boot();
 
         static::deleting(function ($user) { // before delete() method call this
-            $user->Siswas()->delete();  
-            $user->Gurus()->delete();  
-            $user->Admins()->delete();
+            $user->Siswa()->delete();  
+            $user->Guru()->delete();  
+            $user->Admin()->delete();
         });
     }
 }

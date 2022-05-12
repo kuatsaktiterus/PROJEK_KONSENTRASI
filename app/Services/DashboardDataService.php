@@ -20,8 +20,8 @@ class DashboardDataService {
 
         if($isUser) {
             $user           = (Auth::user()->role == 'siswa') ? 
-            Siswa::findOrfail(Auth::user()->siswas->id) : 
-            Guru::findOrfail(Auth::user()->gurus->id);
+            Siswa::findOrfail(Auth::user()->siswa->id) : 
+            Guru::findOrfail(Auth::user()->guru->id);
         } else{$user = null;}
 
         $jumlahGuru         = Guru::count();

@@ -19,7 +19,7 @@ class CreateJadwalKelasTable extends Migration
     {
         Schema::create('jadwal_kelas', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(PembagianKelas::class, 'id_pembagian_Kelas');
+            $table->foreignIdFor(PembagianKelas::class, 'id_pembagian_kelas');
             $table->foreignIdFor(MataPelajaran::class, 'id_matapelajaran');
             $table->foreignIdFor(Guru::class, 'id_pengajar');
             $table->foreignIdFor(Jadwal::class, 'id_jadwal');

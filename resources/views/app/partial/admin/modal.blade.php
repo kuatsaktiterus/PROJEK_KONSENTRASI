@@ -23,6 +23,9 @@
                 <input type="password" class="form-control" id="konfirmasiPassword" name="konfirmasiPassword" placeholder="Isikan password baru, minimal 8 karakter">
             </div>
             <div class="modal-footer">
+            <small>
+                <p>* Untuk keamanan password harus setidaknya terdiri dari 8 karakter, huruf besar dan kecil, angka, serta simbol</p>
+            </small>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary">Save</button>
             </div>

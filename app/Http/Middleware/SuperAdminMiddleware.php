@@ -24,7 +24,7 @@ class SuperAdminMiddleware
         $activeUser = Auth::user();
 
         if (!($activeUser->role == 'super_admin')) {
-            return redirect('/app/dashboard')->withWarning('Maaf terjadi kesalahan');
+            abort(404);
         }
 
         return $next($request);

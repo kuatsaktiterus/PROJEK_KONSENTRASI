@@ -2,7 +2,7 @@
     @if (Auth::user()->role == 'super_admin')
         <span>Super Admin</span>
     @elseif (Auth::user()->role == 'admin')
-        <span>{{Auth::user()->admins->nama }}</span>
+        <span>{{Auth::user()->admin->nama }}</span>
     @endif
 @endsection
 

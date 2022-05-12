@@ -5,9 +5,12 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\DataTables\SuperAdmin\AdminDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminCreateRequest;
+use App\Http\Requests\UpdateAdminRequest;
 use App\Models\Admin;
 use App\Models\User;
 use App\Services\CreateUserService;
+use App\Services\UpdateAdminService;
+use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -44,15 +47,19 @@ class AdminController extends Controller
     {
         $request = $request->validated();
 
+        $request['role'] = 'admin';
+
         try {
             $user = (new CreateUserService())->CreateUser($request);
     
-            $user->admin->create([
+            $user->Admin()->create([
                 'nama' => $request['nama'],
             ]);
         } catch (\Throwable $th) {
+            $user->delete();
             return redirect()->back()->withWarningMessage('Gagal menambahkan data admin, '. $th->getMessage() );
         }
+        return redirect()->back()->withSuccessMessage('Berhasil menambahkan data admin');
     }
 
     /**
@@ -96,16 +103,19 @@ class AdminController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateAdminRequest $request, $id)
     {
-        
+        $request = $request->validated();
+
+        try {
+            $id = Crypt::decrypt($id);
+            $admin = Admin::find($id);
+
+            (new UpdateAdminService())->UpdateAdmin($admin, $request, $request);
+            return redirect()->back()->withSuccessMessage('Berhasil mengedit data admin');
+        } catch (Exception $e) {
+            return redirect()->back()->withWarningMessage('Gagal mengedit data admin, '. $e->getMessage() );
+        }
     }
 
     /**
@@ -116,6 +126,19 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $id = Crypt::decrypt($id);
+        } catch (DecryptException $th) {
+            return redirect()->back()->withWarningMessage('Maaf terjadi kesalahan');
+        }
+
+        try {
+            $admin = Admin::find($id);
+            $id = $admin->user->id;
+            User::find($id)->delete();
+            return redirect()->back()->withSuccessMessage('Berhasil Menghapus Data');
+        } catch (Exception $e) {
+            return redirect()->back()->withWarningMessage('Gagal Menghapus data admin, '. $e->getMessage());
+        }
     }
 }

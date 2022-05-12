@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminCreateRequest extends FormRequest
 {
@@ -28,7 +30,13 @@ class AdminCreateRequest extends FormRequest
         return [
             'nama' => 'required|max:255|string',
             'username' => 'required|max:255|string|unique:users,username',
-            'password' => ['required', 'string', 'min:8'],
+            'password' => ['required',
+                 Password::min(8)
+                 ->mixedCase()
+                 ->letters()
+                 ->numbers()
+                 ->symbols()
+                 ->uncompromised()]
         ];
     }
 
@@ -42,16 +50,14 @@ class AdminCreateRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        $response = response()->json([
-            'status'    => 'error',
-            'message'   => 'validation error',
-            'error'     => $validator->errors(),
-            'content'   => null,
-        ]);
-        
-        throw (new ValidationException($validator, $response))
-            ->errorBag($this->errorBag)
-            ->redirectTo($this->getRedirectUrl());
+        $errors = (new ValidationException($validator))->errors();
+        foreach ($errors as $errs) {
+            foreach ($errs as $error) {
+                $errmsg[] = $error;
+            }
+        }
+        Alert::warning('Gagal!', "Gagal menambahkan data. Error = ". $errmsg[0]);
+        return redirect()->back();
         
         parent::failedValidation($validator);
     }

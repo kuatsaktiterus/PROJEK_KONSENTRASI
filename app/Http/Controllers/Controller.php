@@ -16,7 +16,7 @@ class Controller extends BaseController
         $this->middleware(function($request, $next)
         {
             if (session('success_message')) {
-                Alert::toast('Sukses!', session('success_message'));
+                Alert::toast("Sukses! ".session('success_message'), 'success');
             }
 
             if (session('warning_message')) {

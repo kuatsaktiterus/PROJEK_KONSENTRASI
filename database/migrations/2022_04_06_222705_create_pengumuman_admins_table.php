@@ -15,7 +15,7 @@ class CreatePengumumanAdminsTable extends Migration
     {
         Schema::create('pengumuman_admins', function (Blueprint $table) {
             $table->id();
-            $table->string('pengumuman');
+            $table->text('pengumuman');
             $table->date('waktu_pengumuman');
             $table->timestamps();
         });

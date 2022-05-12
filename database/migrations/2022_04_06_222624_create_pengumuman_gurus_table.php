@@ -16,7 +16,7 @@ class CreatePengumumanGurusTable extends Migration
     {
         Schema::create('pengumuman_gurus', function (Blueprint $table) {
             $table->id();
-            $table->string('pengumuman');
+            $table->text('pengumuman');
             $table->date('waktu_pengumuman');
             
             $table->foreignIdFor(Guru::class, 'id_guru');          

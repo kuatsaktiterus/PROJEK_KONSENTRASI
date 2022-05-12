@@ -1,5 +1,17 @@
 <?php
 
+use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\JadwalController;
+use App\Http\Controllers\Admin\JadwalKelasController;
+use App\Http\Controllers\Admin\JurusanController;
+use App\Http\Controllers\Admin\KelasController;
+use App\Http\Controllers\Admin\MataPelajaranController;
+use App\Http\Controllers\Admin\PembagianKelasController;
+use App\Http\Controllers\Admin\PembagianKelasSiswaController;
+use App\Http\Controllers\Admin\PengumumanAdmin;
+use App\Http\Controllers\Admin\PengumumanAdminController;
+use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\PengumumanGuruController;
 use App\Http\Controllers\SuperAdmin\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +32,44 @@ Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'index']
 
 
 Route::prefix('app')->middleware('auth')->group(function () {
-    Route::resource('/admin', AdminController::class);
-    Route::get('/admin/{action}/{id}', [App\Http\Controllers\SuperAdmin\AdminController::class, 'actionAdmin']);
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('/admin', AdminController::class);
+    Route::get('/admin/{action}/{id}', [AdminController::class, 'actionAdmin']);
+
+    Route::resource('/siswa', SiswaController::class);
+    Route::get('/siswa/{id}/delete', [SiswaController::class, 'actionDeleteSiswa']);
+    Route::post('siswa-import', [SiswaController::class, 'store_from_excel'])->name('siswa.store.excel');
+    
+    Route::resource('/guru', GuruController::class);
+    Route::get('/guru/{id}/delete', [GuruController::class, 'actionDeleteGuru']);
+    Route::post('guru-import', [GuruController::class, 'store_from_excel'])->name('guru.store.excel');
+    
+    Route::resource('/jadwal', JadwalController::class);
+    Route::get('/jadwal/{action}/{id}', [JadwalController::class, 'actionJadwal']);
+
+    Route::resource('/kelas', KelasController::class);
+    
+    Route::resource('/jurusan', JurusanController::class);
+    Route::get('/jurusan/{action}/{id}', [JurusanController::class, 'actionJurusan']);
+    
+    Route::resource('/pembagian-kelas', PembagianKelasController::class);
+    Route::get('/pembagian-kelas-siswa/action/{action}/{id}', [PembagianKelasController::class, 'actionPembagianKelas']);
+    
+    Route::resource('/mata-pelajaran', MataPelajaranController::class);
+    Route::get('/mata-pelajaran/{action}/{id}', [MataPelajaranController::class, 'actionMataPelajaran']);
+
+    Route::post('pembagian-kelas-siswa/{id}/{idPembagianKelas}', [App\Http\Controllers\Admin\PembagianKelasSiswaController::class, 'store']);
+    Route::resource('/pembagian-kelas-siswa', PembagianKelasSiswaController::class);
+    
+    Route::resource('/jadwal-kelas', JadwalKelasController::class);
+    Route::get('/jadwal-kelas/{action}/{id}', [JadwalKelasController::class, 'actionJadwalKelas']);
+    
+    Route::resource('/pengumuman-sekolah', PengumumanAdminController::class);
+    Route::get('/pengumuman-sekolah/{action}/{id}', [PengumumanAdminController::class, 'actionPengumuman']);
+
+    Route::resource('/pengumuman-guru', PengumumanGuruController::class);
+    Route::get('/pengumuman-guru/hapus/{id}', [PengumumanGuruController::class, 'actionPengumuman']);
 });
 
 Auth::routes([
