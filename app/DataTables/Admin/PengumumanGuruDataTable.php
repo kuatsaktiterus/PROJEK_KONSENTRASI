@@ -25,13 +25,11 @@ class PengumumanGuruDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($data) {
-                if (Auth::user()->role == 'admin' || Auth::user()->role == 'super_admin') {
-                    $action = '<button  class="waves-effect btn btn-sm btn-danger" onclick="actionpengumuman(\'' . Crypt::encrypt($data->id) . '\')">
-                                <i class="fas fa-trash" color=white></i>
-                            </button>';
-                return $action;
-                }
-                $action = '<button  class="waves-effect btn btn-sm btn-danger" onclick="actionpengumuman(\'' . 'hapus' . '\',\'' . Crypt::encrypt($data->id) . '\')">
+                $action = (Auth::user()->role == 'admin' || Auth::user()->role == 'super_admin') ?
+                            '<button  class="waves-effect btn btn-sm btn-danger" onclick="actionpengumuman(\'' . Crypt::encrypt($data->id) . '\')">
+                            <i class="fas fa-trash" color=white></i>
+                            </button>' :
+                            '<button  class="waves-effect btn btn-sm btn-danger" onclick="actionpengumuman(\'' . 'hapus' . '\',\'' . Crypt::encrypt($data->id) . '\')">
                                 <i class="fas fa-trash" color=white></i>
                             </button>
                             <button class="waves-effect btn btn-sm btn-primary" onclick="actionpengumuman(\'' . 'edit' . '\',\'' . Crypt::encrypt($data->id) . '\')">

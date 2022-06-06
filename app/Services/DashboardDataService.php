@@ -16,7 +16,7 @@ class DashboardDataService {
 
     public function DashboardUser()
     {
-        if (Auth::user()->role == 'siswa' || Auth::user()->role == 'guru') {$isUser = true;} else{$isUser = false;}
+        $isUser = (Auth::user()->role == 'siswa' || Auth::user()->role == 'guru') ? true : false;
 
         if($isUser) {
             $user           = (Auth::user()->role == 'siswa') ? 
@@ -28,11 +28,13 @@ class DashboardDataService {
         $jumlahSiswa        = Siswa::count();
         $pengumumanAdmin    = PengumumanAdmin::all();
         $pengumumanGuru     = PengumumanGuru::all();
-
-        if($isUser) {
-            $jumlahKelas = (Auth::user()->role == 'siswa') ?
-            PembagianKelas::where('id_kelas', $user->pembagiankelassiswa[0]->pembagiankelas->kelas->id)->count() : 
-            PembagianKelas::all()->count();
+        
+        if(Auth::user()->role == 'siswa') {
+            if ($user->pembagiankelassiswa->count() != 0) {
+                $jumlahKelas = PembagianKelas::where('id_kelas', $user->pembagiankelassiswa[0]->pembagiankelas->id_kelas)->count();
+            } else {
+                $jumlahKelas = 0;
+            } 
         } else {
             $jumlahKelas = PembagianKelas::all()->count();
         }
@@ -46,7 +48,11 @@ class DashboardDataService {
         if($isUser) {
             $jadwalHarian = [];
             foreach ($jadwal as $data) {
-                $jadwalHarian = (Auth::user()->role == 'siswa') ? $user->pembagiankelassiswa[0]->jadwalkelas->where('id_jadwal', $data->id) : $user->jadwalkelas->where('id_jadwal', $data->id);;
+                if (Auth::user()->role == 'siswa' && $user->pembagiankelassiswa->count() == 0) {$jadwalHarian = []; break;}
+                $jadwalHarian = (Auth::user()->role == 'siswa') 
+                ? $user->pembagiankelassiswa[0]->jadwalkelas->where('id_jadwal', $data->id) : 
+                $user->jadwalkelas->where('id_jadwal', $data->id);
+                
             }
         } else{$jadwalHarian = null;}
 

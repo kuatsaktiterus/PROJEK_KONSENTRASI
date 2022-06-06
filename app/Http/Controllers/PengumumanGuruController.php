@@ -22,7 +22,9 @@ class PengumumanGuruController extends Controller
 
     public function index(PengumumanGuruDataTable $dataTable)
     {
-        return $dataTable->render('app.admin.pengumuman-guru.pengumuman-guru');
+        return (Auth::user()->role == 'guru') ? 
+        $dataTable->with('id', Auth::user()->guru->id)->render('app.guru.pengumuman.pengumuman') : 
+        $dataTable->render('app.admin.pengumuman-guru.pengumuman-guru');
     }
 
     public function store(PengumumanRequest $request)
@@ -34,7 +36,7 @@ class PengumumanGuruController extends Controller
             PengumumanGuru::create([
                 'pengumuman'        => $request['pengumuman'],
                 'waktu_pengumuman'  => date(now()),
-                'id_guru'           => Auth::user()->gurus->id,
+                'id_guru'           => Auth::user()->guru->id,
                 ]);
             return redirect()->back()->withSuccessMessage('Berhasil menyimpan data pengumuman');
         } catch (Exception $e) {
@@ -43,7 +45,7 @@ class PengumumanGuruController extends Controller
     }
 
     /**
-    * Show modal for deleting and editing pengumuman
+    * Show modal for deleting and editing pengumuman guru for admin
     */
    public function actionPengumuman($id)
    {
@@ -58,16 +60,41 @@ class PengumumanGuruController extends Controller
        return response()->json(['html' => $returnHTML]);
    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+   /**
+    * Show modal for deleting and editing pengumuman for guru
+    */
+    public function actionPengumumanGuru($action, $id)
     {
-        //
+        try {
+            $id = Crypt::decrypt($id);
+            $pengumuman = PengumumanGuru::findOrFail($id);
+        } catch (DecryptException $th) {
+            return redirect()->back()->withWarningMessage('Maaf terjadi kesalahan');
+        }
+ 
+        $returnHTML = view('app.guru.pengumuman.pengumuman-action', ['data' => $pengumuman, 'action' => $action])->render();
+        return response()->json(['html' => $returnHTML]);
+    }
+
+    public function update(PengumumanRequest $request, $id)
+    {
+        try {
+            $id = Crypt::decrypt($id);
+            $pengumuman = PengumumanGuru::findOrFail($id);
+        } catch (DecryptException $th) {
+            return redirect()->back()->withWarningMessage('Maaf terjadi kesalahan');
+        }
+
+        $request = $request->validated();
+        
+        try {
+            $pengumuman->update([
+                'pengumuman'        => $request['pengumuman']
+                ]);
+            return redirect()->back()->withSuccessMessage('Berhasil mengedit data pengumuman');
+        } catch (Exception $e) {
+            return redirect()->back()->withWarningMessage('Gagal mengedit data pengumuman')->withInput();
+        }
     }
 
     /**

@@ -10,6 +10,7 @@ class DashboardController extends Controller
     public function index(DashboardDataService $dataDashboard)
     {
         $dataUser = $dataDashboard->DashboardUser();
+
             
         return view('dashboard.dashboard', [
             'user'                  => $dataUser[0], 

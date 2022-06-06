@@ -6,6 +6,7 @@ use App\DataTables\SuperAdmin\AdminDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminCreateRequest;
 use App\Http\Requests\UpdateAdminRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Admin;
 use App\Models\User;
 use App\Services\CreateUserService;
@@ -14,6 +15,7 @@ use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -139,6 +141,20 @@ class AdminController extends Controller
             return redirect()->back()->withSuccessMessage('Berhasil Menghapus Data');
         } catch (Exception $e) {
             return redirect()->back()->withWarningMessage('Gagal Menghapus data admin, '. $e->getMessage());
+        }
+    }
+
+
+    // ganti password superadmin
+    public function gantiPassword(UpdatePasswordRequest $request)
+    {
+        $request = $request->validated();
+
+        try {
+            User::find(auth()->user()->id)->update(['password'=> Hash::make($request['newPassword'])]);
+            return redirect()->back()->withSuccessMessage('Berhasil mengganti password');
+        } catch (Exception $e) {
+            return redirect()->back()->withWarningMessage('Gagal mengganti password, '. $e->getMessage());
         }
     }
 }
