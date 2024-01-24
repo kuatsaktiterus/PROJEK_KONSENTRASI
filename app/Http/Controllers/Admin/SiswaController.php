@@ -9,8 +9,11 @@ use App\Http\Requests\StoreExcelRequest;
 use App\Http\Requests\StoreSiswaRequest;
 use App\Http\Requests\UpdateSiswaRequest;
 use App\Imports\SiswaImport;
+use App\Models\ArsipRekapitulasiKelas;
 use App\Models\Jurusan;
+use App\Models\Raport;
 use App\Models\Siswa;
+use App\Models\TahunAjaran;
 use App\Models\User;
 use App\Services\UpdateSiswaService;
 use App\Services\UploadPhotoService;
@@ -188,10 +191,10 @@ class SiswaController extends ControllerAdmin
     public function destroy($id)
     {
         try {
-            $id = Crypt::decrypt($id);
-            $id = Siswa::find($id);
-            $filename = $id->foto;
-            $id = $id->user->id;
+            $id_siswa = Crypt::decrypt($id);
+            $siswa = Siswa::find($id_siswa);
+            $filename = $siswa->foto;
+            $id_user = $siswa->user->id;
         } catch (DecryptException $e) {
             return redirect()->back()->withWarningMessage('Maaf terjadi kesalahan '. $e->getMessage());
         }
@@ -201,7 +204,8 @@ class SiswaController extends ControllerAdmin
             if (is_file($file) && ($filename != 'Default.png')) {
                 Storage::delete("/public/image/siswa/". $filename);
             }
-            User::find($id)->delete();
+            User::findOrFail($id_user)->delete();
+            Raport::where('id_siswa', $id_siswa)->delete();
             return redirect()->back()->withSuccessMessage('Berhasil Menghapus Data Siswa');
         } catch (\Throwable $e) {
             return redirect()->back()->withWarningMessage('Gagal Menghapus Data Siswa '. $e->getMessage());

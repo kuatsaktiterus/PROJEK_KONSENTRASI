@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Siswa extends Model
 {
@@ -38,6 +39,12 @@ class Siswa extends Model
         'foto'
     ];
 
+    public function isKelasNull($id)
+    {
+        $dataSiswa = $this->findOrFail($id);
+        return ($dataSiswa->PembagianKelasSiswa->count() < 1) ? true : null;
+    }
+
     public function User()
     {
         return $this->belongsTo('App\Models\User', 'id_user');
@@ -47,9 +54,14 @@ class Siswa extends Model
     {
         return $this->belongsTo('App\Models\Jurusan', 'id_jurusan');
     }
-
+    
     public function PembagianKelasSiswa()
     {
         return $this->hasMany('App\Models\PembagianKelasSiswa', 'id_siswa');
+    }
+
+    public function Raport()
+    {
+        return $this->hasMany(Raport::class, 'id_siswa');
     }
 }

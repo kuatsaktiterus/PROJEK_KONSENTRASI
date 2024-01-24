@@ -27,7 +27,13 @@ class StoreMataPelajaranRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_mapel' => 'required|max:255|string|unique:App\Models\MataPelajaran,nama_mapel',
+            'nama_mapel'            => 'required|max:255|string|unique:App\Models\MataPelajaran,nama_mapel',
+            'kkm'                   => 'required|max:100|integer',
+            'deskripsi_predikat_a'  => 'required|string',
+            'deskripsi_predikat_b'  => 'required|string',
+            'deskripsi_predikat_c'  => 'required|string',
+            'deskripsi_predikat_d'  => 'required|string',
+            'semester'              => 'required|integer|between:1,6',
         ];
     }
 

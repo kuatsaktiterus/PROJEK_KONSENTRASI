@@ -71,11 +71,12 @@ class MataPelajaranDatatable extends DataTable
                     return 'function(data,type,fullData,meta){return meta.settings._iDisplayStart+meta.row+1;}';
                 }],
                 Column::make('nama_mapel')->title('Mata Pelajaran'),
+                Column::make('semester')->width(100),
                 Column::computed('action')
-                    ->exportable(false)
-                    ->printable(false)
-                    ->width(300)
-                    ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(300)
+                ->addClass('text-center'),
             ];
         } elseif (Auth::user()->role == 'siswa' || Auth::user()->role == 'guru') {
             return [
@@ -83,6 +84,7 @@ class MataPelajaranDatatable extends DataTable
                     return 'function(data,type,fullData,meta){return meta.settings._iDisplayStart+meta.row+1;}';
                 }],
                 Column::make('nama_mapel')->title('Mata Pelajaran'),
+                Column::make('semester')->width(100)
             ];
         }
     }

@@ -1,0 +1,112 @@
+@startuml pembuatan_aplikasi
+
+left to right direction
+actor "Super Admin" as sa #black;line:black;line.bold
+actor Admin as a #red;line:black;line.bold
+actor Guru as g #blue;line:black;line.bold
+actor Siswa as s #green;line:black;line.bold
+
+rectangle Sekolah {
+    rectangle Pengumuman {
+        rectangle "Pengumuman Sekolah" as pengumuman_sekolah {
+            usecase "create_pengumuman_sekolah" as ps1
+            usecase "delete_pengumuman_sekolah" as ps2
+            usecase "edit_pengumuman_sekolah" as ps3
+            usecase "view_pengumuman_sekolah" as ps4
+        }
+
+        rectangle "Pengumuman Guru" as pengumuman_guru {
+            usecase "create_pengumuman_guru" as pg1
+            usecase "edit_pengumuman_guru" as pg3
+            usecase "delete_pengumuman_guru" as pg2
+            usecase "view_pengumuman_guru" as pg4
+        }
+    }
+
+    package User {
+        rectangle Admin {
+            usecase "create_admin" as uca1
+            usecase "delete_admin" as uca2
+            usecase "edit_admin" as uca3
+            usecase "view_admin" as uca4
+        }
+    
+        rectangle Siswa {
+            usecase "create_siswa" as ucs1
+            usecase "delete_siswa" as ucs2
+            usecase "import__siswa" as ucs11
+            usecase "edit_siswa" as ucs3
+            usecase "view_siswa" as ucs4
+        }
+
+        rectangle Guru {
+            usecase "create_guru" as ucg1
+            usecase "delete_guru" as ucg2
+            usecase "import_guru" as ucg11
+            usecase "edit_guru" as ucg3
+            usecase "view_guru" as ucg4
+        }
+    }
+    
+    package "Jadwal, Kelas, Mata Pelajaran" as jadwal_dan_kelas {
+        rectangle Kelas {
+            usecase "create_kelas" as uck1
+            usecase "delete_kelas" as uck2
+            usecase "edit_kelas" as uck3
+            usecase "view_kelas" as uck4
+        }
+
+        rectangle "Mata Pelajaran" as mata_pelajaran {
+            usecase "create_mata_pelajaran" as mp1
+            usecase "delete_mata_pelajaran" as mp2
+            usecase "edit_mata_pelajaran" as mp3
+            usecase "view_mata_pelajaran" as mp4
+        }
+
+        rectangle "Jadwal Kelas" as jadwal_kelas {
+            usecase "create_jadwal_kelas" as ujk1
+            usecase "delete_jadwal_kelas" as ujk2
+            usecase "edit_jadwal_kelas" as ujk3
+            usecase "view_jadwal_kelas" as ujk4
+        }
+
+        rectangle Jadwal {
+            usecase "create_jadwal" as uj1
+            usecase "delete_jadwal" as uj2
+            usecase "edit_jadwal" as uj3
+        }
+    }
+}
+
+sa -down------> jadwal_dan_kelas #black;line.bold
+sa -down-> User #black;line.bold
+sa -down-> pengumuman_sekolah #black;line.bold
+sa -down-> pg2 #black;line.bold
+sa -down-> pg4 #black;line.bold
+
+a -down-> jadwal_dan_kelas #red;line.bold
+a -down-> Siswa #red;line.bold
+a -down-> Guru #red;line.bold
+a -down-> pengumuman_sekolah #red;line.bold
+a -down-> pg2 #red;line.bold
+a -down-> pg4 #red;line.bold
+
+s -up-> ps4 #green;line.bold
+s -up-> pg4 #green;line.bold
+s -up-> ujk4 #green;line.bold
+s -up-> uck4 #green;line.bold
+s -up-> mp4 #green;line.bold
+s -up-> ucg4 #green;line.bold
+
+ 
+g -up-> ujk4 #blue;line.bold
+g -up-> ps4 #blue;line.bold
+g -up-> mp4 #blue;line.bold
+g -up-> ucs4 #blue;line.bold
+g -up-> pengumuman_guru #blue;line.bold
+
+
+ucs11 .up.> ucs1 : <<extend>>
+ucg11 .up.> ucg1 : <<extends>> 
+jadwal_kelas ....> Jadwal : <<include>> 
+@enduml

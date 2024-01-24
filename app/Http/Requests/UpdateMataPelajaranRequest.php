@@ -35,7 +35,13 @@ class UpdateMataPelajaranRequest extends FormRequest
         }
 
         return [
-            'nama_mapel' => 'required|max:255|string|unique:App\Models\MataPelajaran,nama_mapel,'.$id,
+            'nama_mapel'            => 'required|max:255|string|unique:App\Models\MataPelajaran,nama_mapel,'.$id,
+            'kkm'                   => 'required|max:100|integer',
+            'deskripsi_predikat_a'  => 'required|string',
+            'deskripsi_predikat_b'  => 'required|string',
+            'deskripsi_predikat_c'  => 'required|string',
+            'deskripsi_predikat_d'  => 'required|string',
+            'semester'              => 'required|integer|between:1,6',
         ];
     }
 

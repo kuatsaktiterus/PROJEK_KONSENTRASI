@@ -1,0 +1,74 @@
+@startuml
+' ======= the actors =========
+
+actor :Left 1: as Left1 << Human >> #f8fdff
+actor :Right 1: as Right1 << Stereotype >>
+actor :Left 2: as Left2 << Human >> #eaf0f9
+
+actor :Left 3: as Left3 << Human >> #eaf0f9
+actor :Left 4: as Left4 << Human >> #eaf0f9
+
+actor :Left 5: as Left5  #eaf0f9
+actor :Right 3: as Right3  #eaf0f9
+actor :Right 2: as Right2  #eaf0f9
+
+rectangle "My Rectangle" #C0C0C0 {
+    left to right direction
+
+    ' ====== the use cases =========
+
+    (Use case A) as (UseCaseA) #83d3f6
+    (Use case B) as (UseCaseB) #83d3f6
+    (Use case C) as (UseCaseC) #83d3f6
+    (Use case D) as (UseCaseD) #83d3f6
+    (Use case E) as (UseCaseE) #83d3f6
+
+    (Use case F) as (UseCaseF) #7a97ca
+    (Use case G) as (UseCaseG) #7a97ca
+    (Use case H) as (UseCaseH) #7a97ca
+
+    (Use case I) as (UseCaseI) #ffcb0c
+    (Use case J) as (UseCaseJ) #ffcb0c
+    (Use case K) as (UseCaseK) #ffcb0c
+    (Use case L) as (UseCaseL) #ffcb0c
+
+    (Use case M) as (UseCaseM) #a4e148
+    (Use case N) as (UseCaseN) #a4e148
+    (Use case O) as (UseCaseO) #a4e148
+
+    ' ====== the use case links =========
+
+    Left1 -- (UseCaseA)
+    Left1 -- (UseCaseB)
+    Left1 -- (UseCaseC)
+    Left1 -- (UseCaseD)
+    Left1 -- (UseCaseE)
+
+    Left2 -- (UseCaseF)
+    Left2 -- (UseCaseG)
+    (UseCaseF) .> (UseCaseA) : << extends >>
+    (UseCaseG) .> (UseCaseA) : << extends >>
+
+    Left3 -- (UseCaseG)
+    Left3 -- (UseCaseH)
+    (UseCaseH) .> (UseCaseD) : << extends >>
+
+    Left4 -- (UseCaseI)
+    Left4 -- (UseCaseJ)
+    Left4 -- (UseCaseK)
+    Left4 -- (UseCaseL)
+
+    Left5 -- (UseCaseM)
+    (UseCaseM) -- (UseCaseN)
+    (UseCaseM) -- (UseCaseO)
+    Right3 -up- (UseCaseN)
+
+    'TODO: These last 2 should be positioned on the right hand side. How to do it?
+    Right1 -- (UseCaseA)
+    Right2 -- (UseCaseD)
+
+    'These do not work. PlantUML will put the Actors far away at the bottom
+    '(UseCaseA) -- Right1
+    '(UseCaseD) -- Right2
+}
+@enduml

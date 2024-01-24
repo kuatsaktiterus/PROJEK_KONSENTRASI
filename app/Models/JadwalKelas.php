@@ -40,4 +40,14 @@ class JadwalKelas extends Model
     {
         return $this->belongsTo('App\Models\PembagianKelas', 'id_pembagian_kelas');
     }
+
+    public function Kelas()
+    {
+        return $this->hasManyThrough(Kelas::class, PembagianKelas::class);
+    }
+
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class, 'id_jadwal_kelas');
+    }
 }

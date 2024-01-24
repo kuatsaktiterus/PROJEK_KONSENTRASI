@@ -41,4 +41,12 @@ class Guru extends Model
     {
         return $this->hasMany('App\Models\JadwalKelas', 'id_pengajar');
     }
+
+    public function isWaliKelas($id)
+    {
+        $isWaliKelas = PembagianKelas::where('wali_kelas', $id);
+        return ($isWaliKelas) ? true : false;
+    }
 }
+
+        

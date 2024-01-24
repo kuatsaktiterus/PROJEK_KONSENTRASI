@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Guru;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreSemesterRequest;
+use App\Http\Requests\UpdateSemesterRequest;
+use App\Models\Semester;
 
-class PengumumanGuruController extends Controller
+class SemesterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,10 +31,10 @@ class PengumumanGuruController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreSemesterRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSemesterRequest $request)
     {
         //
     }
@@ -41,10 +42,10 @@ class PengumumanGuruController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Semester  $semester
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Semester $semester)
     {
         //
     }
@@ -52,10 +53,10 @@ class PengumumanGuruController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Semester  $semester
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Semester $semester)
     {
         //
     }
@@ -63,11 +64,11 @@ class PengumumanGuruController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateSemesterRequest  $request
+     * @param  \App\Models\Semester  $semester
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSemesterRequest $request, Semester $semester)
     {
         //
     }
@@ -75,10 +76,10 @@ class PengumumanGuruController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Semester  $semester
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Semester $semester)
     {
         //
     }

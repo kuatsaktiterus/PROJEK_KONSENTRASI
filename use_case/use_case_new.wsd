@@ -1,0 +1,99 @@
+@startuml pembuatan_aplikasi
+actor "super admin" as as
+actor admin as a
+actor guru as g
+actor siswa as s
+
+' skinparam linetype polyline
+' skinparam linetype proto
+left to right direction
+' user
+rectangle {
+
+    rectangle usecase as uc1 {
+        usecase "mengelola data admin" as mda
+        usecase "mengelola data guru" as mdg
+        usecase "mengelola data siswa" as mds
+        usecase "mengelola data mata pelajaran" as mdmp
+        usecase "mengelola data jadwal kelas" as mdjk
+        usecase "mengelola data kelas" as mdk
+        usecase "mengelola data jadwal" as mdj
+        usecase "pengumuman sekolah" as ps
+        usecase "semester" as str
+        usecase "view pengumuman guru" as vpg
+        usecase "pengumuman guru" as pg
+    }
+ 
+    rectangle usecase as uc2 {
+        usecase "view data guru" as vdg
+        usecase "view data siswa" as vds
+
+        usecase "view data mata pelajaran" as vdmp
+        usecase "delete pengumuman guru" as dpg
+        usecase "view data jadwal kelas" as vdjk
+        usecase "view data kelas" as vdk
+
+        usecase "view pengumuman sekolah" as vps
+
+
+        ' data nilai siswa
+        usecase "nilai siswa" as ns 
+        usecase "nilai raport" as nr  
+    }
+
+    usecase "login" as log  
+}
+
+uc1 .up.> log : <<include>>
+uc2 ..> log : <<include>>
+as -up-> str #black;line.bold
+as -up-> mda #black;line.bold
+as -up-> mdg #black;line.bold
+as -up-> mds #black;line.bold
+as -up-> mdmp #black;line.bold
+as -up-> mdjk #black;line.bold
+as -up-> mdk #black;line.bold
+as -up-> mdj #black;line.bold
+as -up-> ps #black;line.bold
+as -up-> vpg #black;line.bold
+as -up-> dpg #black;line.bold
+as -up-> log #black;line.bold
+
+a -up-> mdg #red;line.bold
+a -up-> mds #red;line.bold 
+a -up-> mdmp #red;line.bold
+a -up-> mdjk #red;line.bold
+a -up-> mdk #red;line.bold
+a -up-> mdj #red;line.bold
+a -up-> ps #red;line.bold
+a -up-> vpg #red;line.bold
+a -up-> dpg #red;line.bold
+a -up-> log #red;line.bold
+
+
+g --> pg #Green;line.bold
+g --> vps #Green;line.bold  
+g --> vdmp #Green;line.bold
+g --> vdjk #Green;line.bold
+g --> vds #Green;line.bold
+g --> ns #Green;line.bold
+g --> nr #Green;line.bold
+g --> log #Green;line.bold
+
+s --> vdg #blue;line.bold
+s --> vdk #blue;line.bold
+s --> vdjk #blue;line.bold
+s --> vpg #blue;line.bold
+s --> vps #blue;line.bold
+s --> log #blue;line.bold
+
+vpg -> pg #Orange;line.bold
+dpg --> pg #Orange;line.bold
+vps --> ps #Orange;line.bold
+vdmp --> mdmp #Orange;line.bold
+vdjk --> mdjk #Orange;line.bold
+vds --> mds #Orange;line.bold
+vdg --> mdg #Orange;line.bold
+vdk --> mdk #Orange;line.bold
+
+@enduml

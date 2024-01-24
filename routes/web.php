@@ -6,11 +6,14 @@ use App\Http\Controllers\Admin\JadwalKelasController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\MataPelajaranController;
+use App\Http\Controllers\Admin\NilaiDanSemesterController;
 use App\Http\Controllers\Admin\PembagianKelasController;
 use App\Http\Controllers\Admin\PembagianKelasSiswaController;
 use App\Http\Controllers\Admin\PengumumanAdminController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Guru\GuruController as GurusContentController;
+use App\Http\Controllers\Guru\NilaiController;
+use App\Http\Controllers\Guru\RaportMataPelajaranController;
 use App\Http\Controllers\Siswa\SiswaController as SiswaContentController;
 use App\Http\Controllers\PengumumanGuruController;
 use App\Http\Controllers\SuperAdmin\AdminController;
@@ -67,6 +70,7 @@ Route::prefix('app')->middleware('admin')->group(function () {
 
     Route::post('pembagian-kelas-siswa/{id}/{idPembagianKelas}', [App\Http\Controllers\Admin\PembagianKelasSiswaController::class, 'store']);
     Route::resource('/pembagian-kelas-siswa', PembagianKelasSiswaController::class);
+    Route::delete('pembagian-kelas-siswa/{pembagian_kelas_siswa}/{idSiswa}', [App\Http\Controllers\Admin\PembagianKelasSiswaController::class, 'destroy'])->name('pembagian-kelas-siswa.destroy');
     
     Route::resource('/jadwal-kelas', JadwalKelasController::class);
     Route::get('/jadwal-kelas/{action}/{id}', [JadwalKelasController::class, 'actionJadwalKelas']);
@@ -77,6 +81,14 @@ Route::prefix('app')->middleware('admin')->group(function () {
     Route::get('/pengumuman-guru/hapus/{id}', [PengumumanGuruController::class, 'actionPengumumanAdmin']);
 
     Route::put('/ganti-password-superadmin/{id}', [AdminController::class, 'gantiPassword'])->name('change-pass-superadmin.put');
+
+    Route::put('/nilai-semester/{id_arsip}/{id_tahun_ajar}', [NilaiDanSemesterController::class, 'akhiriSemester'])->name('nilai-semester.update');
+    Route::post('/nilai-semester', [NilaiDanSemesterController::class, 'mulaiSemester'])->name('nilai-semester.post');
+
+    Route::get('/nilai-semester', [NilaiDanSemesterController::class, 'index'])->name('nilai-semester.index');
+    Route::get('/nilai-semester-siswa', [NilaiDanSemesterController::class, 'siswa'])->name('nilai-semester-siswa.index');
+    Route::get('/nilai-semester-raport-siswa/{id}/{idSiswa}', [NilaiDanSemesterController::class, 'raportIndex'])->name('nilai-semester-raport.index');
+    Route::get('/nilai-semester-list-raport/{id}', [NilaiDanSemesterController::class, 'listRaport'])->name('nilai-semester-list-raport.index');
 });
 
 Route::prefix('app')->middleware('guru')->group(function()
@@ -88,6 +100,20 @@ Route::prefix('app')->middleware('guru')->group(function()
     Route::get('profil-guru', [GurusContentController::class, 'profil'])->name('profil-guru.index');
     Route::get('password-guru', [GurusContentController::class, 'indexPassword'])->name('index-password-guru.index');
     Route::put('update-password-guru', [GurusContentController::class, 'updatePassword'])->name('update-password-guru.update');
+
+    // nilai
+    Route::get('/nilai-siswa/create/{id_siswa}/{id_jadwal_kelas}', [NilaiController::class, 'create'])->name("nilai-siswa-creata.create");
+    Route::post('/nilai-siswa/{id_jadwal_kelas}/{id_siswa}', [NilaiController::class, 'store'])->name('nilai-siswa-siswa.store');
+    Route::resource('/nilai-siswa', NilaiController::class);
+    Route::get('/nilai-siswa/siswa/{id}', [NilaiController::class, 'siswa'])->name('nilai-siswa-siswa.show');
+
+    Route::get('/perwalian-kelas', [NilaiController::class, 'perwalianKelas'])->name('perwalian-kelas.index');
+    Route::get('/perwalian-kelas-siswa/{id}', [NilaiController::class, 'siswaPerwalianKelas'])->name('perwalian-kelas-siswa.index');
+    Route::get('/perwalian-kelas-raport/{id}', [NilaiController::class, 'raportPerwalianKelas'])->name('perwalian-kelas-raport.index');
+    Route::post('/perwalian-kelas-raport-submit/{id}', [NilaiController::class, 'submitRaportPerwalianKelas'])->name('perwalian-kelas-raport-submit.update');
+
+    Route::put('/raport-matapelajaran', [RaportMataPelajaranController::class, 'update'])->name('raport-matapelajaran.update');
+    Route::put('/raport-matapelajaran/{id}', [RaportMataPelajaranController::class, 'submit'])->name('raport-matapelajaran-submit.update');
 });
 
 Route::prefix('app')->middleware('siswa')->group(function()

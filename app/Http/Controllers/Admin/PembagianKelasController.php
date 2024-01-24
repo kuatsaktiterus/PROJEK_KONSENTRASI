@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatePembagianKelasRequest;
 use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\PembagianKelas;
+use App\Models\TahunAjaran;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
@@ -39,6 +40,8 @@ class PembagianKelasController extends ControllerAdmin
 
     public function show($id, PembagianKelasDatatable $dataTable)
     {
+        $tahunAjar = TahunAjaran::latest()->first()->aktif;
+
         try {
             $id = Crypt::decrypt($id);
             session()->put('id_kelas', $id);
@@ -48,7 +51,7 @@ class PembagianKelasController extends ControllerAdmin
 
         $kelas = Kelas::find($id);
         $guru = Guru::select('nip', 'nama', 'id')->get();
-        return $dataTable->with('id', $id)->render('app.admin.kelas.pembagian-kelas', ['gurus' => $guru, 'kelas' => $kelas->kelas, 'jurusan' => $kelas->jurusan]);
+        return $dataTable->with('id', $id)->render('app.admin.kelas.pembagian-kelas', ['gurus' => $guru, 'kelas' => $kelas->kelas, 'jurusan' => $kelas->jurusan, 'tahunAjar' => $tahunAjar]);
     }
 
     public function actionPembagianKelas($action, $id)

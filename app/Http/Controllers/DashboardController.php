@@ -20,6 +20,8 @@ class DashboardController extends Controller
             'jadwalHarian'          => $dataUser[4],
             'pengumumanSekolah'     => $dataUser[5],
             'pengumumanGuru'        => $dataUser[6],
-            'jumlahAdmin'           => $dataUser[7]]);
+            'jumlahAdmin'           => $dataUser[7]
+            ]
+        );
     }
 }

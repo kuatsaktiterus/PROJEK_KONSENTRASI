@@ -29,7 +29,13 @@ class MataPelajaranController extends ControllerAdmin
 
         try {
             MataPelajaran::create([
-                'nama_mapel' => $request['nama_mapel'],
+                'nama_mapel'            => $request['nama_mapel'],
+                'kkm'                   => $request['kkm'],
+                'deskripsi_predikat_A'  => $request['deskripsi_predikat_a'],
+                'deskripsi_predikat_B'  => $request['deskripsi_predikat_b'],
+                'deskripsi_predikat_C'  => $request['deskripsi_predikat_c'],
+                'deskripsi_predikat_D'  => $request['deskripsi_predikat_d'],
+                'semester'              => $request['semester'],
             ]);
             return redirect()->back()->withSuccessMessage('Berhasil menyimpan data mata pelajaran');
         } catch (Exception $e) {
@@ -66,6 +72,12 @@ class MataPelajaranController extends ControllerAdmin
             $mapel = MataPelajaran::findOrFail($id);
             $mapel->update([
                 'nama_mapel' => $request['nama_mapel'],
+                'kkm'                   => $request['kkm'],
+                'deskripsi_predikat_A'  => $request['deskripsi_predikat_a'],
+                'deskripsi_predikat_B'  => $request['deskripsi_predikat_b'],
+                'deskripsi_predikat_C'  => $request['deskripsi_predikat_c'],
+                'deskripsi_predikat_D'  => $request['deskripsi_predikat_d'],
+                'semester'              => $request['semester'],
             ]);
             return redirect()->back()->withSuccessMessage('Berhasil mengedit data mata pelajaran');
         } catch (Exception $e) {

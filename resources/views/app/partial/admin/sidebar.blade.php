@@ -36,7 +36,7 @@
                 <span class="none">Mata Pelajaran</span>
             </a>
         </li>
-
+        
         <li class="parent">
             <a href="#" onclick="toggle_menu('pengumuman'); return false" class=""><i class="far fa-flag mr-3"></i>
                 <span class="none">Pengumuman <i class="fa fa-angle-down pull-right align-bottom"></i></span>
@@ -45,6 +45,12 @@
                 <li class="child"><a href="{{ route('pengumuman-sekolah.index') }}" class="ml-4"><i class="fa fa-angle-right mr-2"></i> Pengumuman Sekolah</a></li>
                 <li class="child"><a href="{{ route('pengumuman-guru.index') }}" class="ml-4"><i class="fa fa-angle-right mr-2"></i> Pengumuman Guru</a></li>
             </ul>
+        </li>
+
+        <li class="parent">
+            <a href="{{ route('nilai-semester.index') }}" class=""><i class="fa fa-archive mr-3"></i>
+                <span class="none">Nilai dan semester</span>
+            </a>
         </li>
     </ul>
 </div>

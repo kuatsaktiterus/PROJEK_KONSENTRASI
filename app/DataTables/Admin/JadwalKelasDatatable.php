@@ -44,6 +44,7 @@ class JadwalKelasDatatable extends DataTable
             })
             ->addColumn('id_jadwal', function ($data) {
                 $weekdays = Carbon::getDays();
+                Carbon::setlocale('id');
                 return "Hari " . Carbon::create($weekdays[$data->jadwal->hari])->dayName. " dari pukul " . Carbon::parse($data->jadwal->jam_mulai)->translatedFormat('H:i') . " sampai pukul " . Carbon::parse($data->jadwal->jam_selesai)->translatedFormat('H:i');
             });
     }

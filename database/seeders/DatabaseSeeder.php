@@ -28,10 +28,13 @@ class DatabaseSeeder extends Seeder
         $this->call(JadwalSeeder::class);
         $this->call(KelasSeeder::class);
         $this->call(PembagianKelasSeeder::class);
-        $this->call(PembagianKelasSiswaSeeder::class);
+        // $this->call(PembagianKelasSiswaSeeder::class);
         $this->call(MataPelajaranSeeder::class);
         $this->call(JadwalKelasSeeder::class);
         $this->call(PengumumanGuruSeeder::class);
         $this->call(PengumumanAdminSeeder::class);
+        $this->call(TahunAjaranSeeder::class);
+        $this->call(ArsipRekapitulasiKelasSeeder::class);
+        $this->call(RekapitulasiKelasSeeder::class);
     }
 }

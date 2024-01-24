@@ -43,4 +43,19 @@ class PembagianKelas extends Model
     {
         return $this->hasMany('App\Models\PembagianKelasSiswa', 'id_pembagian_kelas');
     }
+
+    public function RekapitulasiKelas()
+    {
+        return $this->hasMany(RekapitulasiKelas::class, 'id_pembagian_kelas');
+    }
+
+     // this is a recommended way to declare event handlers
+     public static function boot()
+     {
+         parent::boot();
+ 
+         static::deleting(function ($pembagianKelas) { // before delete() method call this
+             $pembagianKelas->RekapitulasiKelas()->delete(); 
+         });
+     }
 }

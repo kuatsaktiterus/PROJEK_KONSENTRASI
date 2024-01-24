@@ -19,11 +19,6 @@ class PembagianKelasSiswa extends Model
         return $this->belongsTo('App\Models\Siswa', 'id_siswa');
     }
 
-    public function JadwalKelas()
-    {
-        return $this->hasMany('App\Models\JadwalKelas', 'id_pembagian_kelas');
-    }
-
     public function PembagianKelas()
     {
         return $this->belongsTo('App\Models\PembagianKelas', 'id_pembagian_kelas');

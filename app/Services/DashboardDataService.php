@@ -19,9 +19,10 @@ class DashboardDataService {
         $isUser = (Auth::user()->role == 'siswa' || Auth::user()->role == 'guru') ? true : false;
 
         if($isUser) {
-            $user           = (Auth::user()->role == 'siswa') ? 
-            Siswa::findOrfail(Auth::user()->siswa->id) : 
-            Guru::findOrfail(Auth::user()->guru->id);
+
+            $user = (Auth::user()->role == 'siswa') 
+            ? Siswa::findOrfail(Auth::user()->siswa->id)
+            : Guru::findOrfail(Auth::user()->guru->id);
         } else{$user = null;}
 
         $jumlahGuru         = Guru::count();
@@ -50,9 +51,8 @@ class DashboardDataService {
             foreach ($jadwal as $data) {
                 if (Auth::user()->role == 'siswa' && $user->pembagiankelassiswa->count() == 0) {$jadwalHarian = []; break;}
                 $jadwalHarian = (Auth::user()->role == 'siswa') 
-                ? $user->pembagiankelassiswa[0]->jadwalkelas->where('id_jadwal', $data->id) : 
+                ? $user->pembagiankelassiswa[0]->pembagiankelas->jadwalkelas->where('id_jadwal', $data->id) : 
                 $user->jadwalkelas->where('id_jadwal', $data->id);
-                
             }
         } else{$jadwalHarian = null;}
 

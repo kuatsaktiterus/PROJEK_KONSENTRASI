@@ -23,7 +23,7 @@ class IsiKelasDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($data) {
-                $action =  '<form method="POST" action="'. route('pembagian-kelas-siswa.destroy', ['pembagian_kelas_siswa' => Crypt::encrypt($data->pembagiankelassiswa[0]->id)]).'">
+                $action =  '<form method="POST" action="'. route('pembagian-kelas-siswa.destroy', ['pembagian_kelas_siswa' => Crypt::encrypt($data->pembagiankelassiswa[0]->id), 'idSiswa' => Crypt::encrypt($data->id)]).'">
                                 <input type="hidden" name="_token" value='.csrf_token().'>
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit" class="waves-effect btn btn-danger">

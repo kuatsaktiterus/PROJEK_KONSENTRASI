@@ -38,7 +38,9 @@ class SiswaController extends Controller
 
     public function jadwalKelas(JadwalKelasDataTable $dataTable)
     {
-        $dataSiswa = Siswa::findOrFail(Auth::user()->siswa->id);
+        $idSiswa = Auth::user()->siswa->id;
+        if ((new Siswa())->isKelasNull($idSiswa)) {abort(404);}
+        $dataSiswa = Siswa::findOrFail($idSiswa);
         $idPembagianKelas = $dataSiswa->pembagiankelassiswa[0]->id_pembagian_kelas;    
         return $dataTable->with('id', $idPembagianKelas)->render('app.siswa.kelas.jadwal-kelas', ['data' => $dataSiswa]);
     }

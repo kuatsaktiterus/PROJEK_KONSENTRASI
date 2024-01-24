@@ -2,7 +2,9 @@
 
 namespace App\Imports;
 
+use App\Models\ArsipRekapitulasiKelas;
 use App\Models\Jurusan;
+use App\Models\Raport;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -53,7 +55,7 @@ class SiswaImport implements
 
             $row['tanggal_lahir'] = Carbon::createFromFormat('d-m-Y', $row['tanggal_lahir'])->format('Y-m-d');
             
-            $user->Siswa()->create([
+            $siswa = $user->Siswa()->create([
                 'name'              => $row['nama'],
                 'jenis_kelamin'     => $row['jenis_kelamin'],
                 'no_telepon'        => $row['no_telepon'],

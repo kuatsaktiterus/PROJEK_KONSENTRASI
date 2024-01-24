@@ -16,10 +16,16 @@ class MataPelajaran extends Model
 	 */
     protected $fillable = [
         'nama_mapel',
+        'deskripsi_predikat_A',
+        'deskripsi_predikat_B',
+        'deskripsi_predikat_C',
+        'deskripsi_predikat_D',
+        'semester',
+        'kkm',
 	];
 
     public function JadwalKelas()
     {
-        return $this->hasMany('App\Models\Sekolah\JadwalKelas', 'id_matapelajaran');
+        return $this->hasMany(JadwalKelas::class, 'id_matapelajaran');
     }
 }
